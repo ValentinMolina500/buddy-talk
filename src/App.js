@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { animateScroll } from "react-scroll";
 import './App.css';
-
+import CHAT_API from "./api/ChatAPI";
 import CC_LOGO from "./images/cc.png";
 
 
@@ -31,7 +31,7 @@ function App() {
 
   /* On init */
   useEffect(() => {
-    s
+    
     const voices = voiceSynth.getVoices();
     console.log(voices);
     /* Setup speech recognition */
