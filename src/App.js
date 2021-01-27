@@ -1,23 +1,173 @@
-import logo from './logo.svg';
+import React, { useState, useEffect, useRef } from 'react';
+import { animateScroll } from "react-scroll";
 import './App.css';
+import CHAT_API from "./api/ChatAPI";
+
 
 function App() {
+  
+  const [voiceSynth, selectedVoiceSynth] = useState(window.speechSynthesis)
+  /* The text-to-speech voices available */
+  const [speechVoices, setSpeechVoices] = useState([]);
+
+  /* The current selected voice */
+  const [selectedVoice, setSelectedVoice] = useState("Google UK English Male");
+
+  /* Flag to indicate if user is currently speaking */
+  const [isSpeaking, setIsSpeaking] = useState(false);
+
+  /* Ref to the recongnition object */
+  const recognition = useRef(null);
+
+  /* A list of recieved/sent messages */
+  const [messagesList, setMessagesList] = useState([]);
+
+  /* Flag to indicate waiting for response */
+  const [waitingForResponse, setWaitingForResponse] = useState(false);
+
+  /* On init */
+  useEffect(() => {
+    const voices = voiceSynth.getVoices();
+    console.log(voices);
+    /* Setup speech recognition */
+    recognition.current = new window.webkitSpeechRecognition();
+    recognition.current.continous = true;
+    // recognition.current.interimResults = true;
+    recognition.current.lang = 'en-US';
+
+    recognition.current.onstart = onRecognitionStart;
+    recognition.current.onspeechend = onSpeechEnd;
+    recognition.current.onresult = onRecognitionResult;
+
+    setSpeechVoices(voices);
+  }, []);
+
+  useEffect(() => {
+    if (isSpeaking) {
+      recognition.current.start();
+    } else {
+      recognition.current.stop();
+    }
+  }, [isSpeaking]);
+  
+  const getVoices = () => {
+    return speechVoices.map(voice => {
+      console.log(voice);
+
+      return (
+        <option key={voice.name} value={voice.name}>
+          {voice.name}
+        </option>
+      );
+    })
+  };
+  
+  useEffect(() => {
+    animateScroll.scrollToBottom({
+      containerId: "messageContainer",
+      duration: 200,
+      delay: 0
+    })
+  }, [messagesList])
+  const onVoiceStart = () => {
+    setIsSpeaking(!isSpeaking);
+  };
+
+  const onRecognitionStart = () => {
+    console.log("Listening to voice...")
+  };
+
+  const onSpeechEnd = () => {
+    console.log("Stopped listening to voice");
+    setIsSpeaking(false);
+  };
+
+  const onRecognitionResult = (event) => {
+    console.log("Transcript: ", event.results[0][0].transcript);
+
+    /* Push the transcribed message to the list */
+    const message = {
+      type: "sent",
+      text: event.results[0][0].transcript
+    };
+
+    setWaitingForResponse(true);
+  
+    CHAT_API.getReply(message.text)
+      .then((response) => {
+        const botResponse = {
+          type: "recieved",
+          text: response.output
+        }
+        
+        const utterThis = new SpeechSynthesisUtterance(botResponse.text);
+        const voice = speechVoices.find(el => 
+          el.name === selectedVoice
+        );
+
+
+        utterThis.voice = voice;
+        voiceSynth.speak(utterThis);
+
+
+        setIsSpeaking(true);
+        setWaitingForResponse(false);
+        setMessagesList(oldMessages => [...oldMessages, botResponse]);
+      });
+
+    setIsSpeaking(false);
+    setMessagesList(oldMessages => [...oldMessages, message]);
+  };
+
+  const renderMessagesList = () => {
+    return messagesList.map((message) => {
+      
+      if (message.type === "sent") {
+        return (
+          <li className="message-list-message-container">
+            <p className="user-message-label">You said:</p>
+            <p className="message-text">{message.text}</p>
+          </li>
+        );
+      }
+
+      if (message.type === "recieved") {
+        return (
+          <li className="message-list-message-container">
+            <p className="bot-message-label">Your bud said:</p>
+            <p className="message-text">{message.text}</p>
+          </li>
+        )
+      }
+      
+    });
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <main id="messageContainer" className="text-box-container">
+        {
+          messagesList.length === 0 ? (
+            <div className="empty-list-container">
+              Start talking to your buddy by clicking the button below.
+            </div>
+          ) : (
+            <ul className="message-box">
+              {renderMessagesList()}
+            </ul>
+          )
+        }
+        
+      </main>
+
+      <div className="text-input-container">
+        <div className="button-container">
+
+          <button disabled={waitingForResponse} class={`${isSpeaking ? "active" : ""}`} onClick={onVoiceStart} id="getVoiceInputBtn">
+            { isSpeaking ? "Listening... click to stop" : "Click to start speaking" }
+          </button>
+        </div>
+      </div>
     </div>
   );
 }

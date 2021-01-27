@@ -1,38 +1,144 @@
 .App {
-  text-align: center;
+  height: 100vh;
+  width: 100%;
+  display: grid;
+  background: #1A202C;
+  grid-template-rows: 1fr auto;
+  overflow: hidden;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.App .text-box-container {
+  height: 100%;
+  background: inherit;
+  width: 100%;
+  max-width: 50rem;
+  margin: 0 auto;
+  overflow-y: auto;
+  display: grid;
+  place-items: center;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.App .text-box {
+  grid-row: 1;
+  overflow-y: scroll;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
+.App .text-input-container {
+  background: #2D3748;
+  grid-row: 2;
+  padding: 1rem 0;
+  
+}
+
+.App .button-container {
+  width: 100%;
+  max-width: 50rem;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+.App ul.message-box {
+  list-style: none;
+  margin: 0;
+  height: 100%;
+  width: 100%;
+  padding: 0;
+  overflow-y: auto;
+}
+
+.App li.message-list-message-container {
+  padding: 1rem;
+}
+
+.App .empty-list-container {
+  color: #EDF2F7;
+  width: 100%;
+  max-width: 20rem;
+  padding: 2rem;
+  border: 1px dashed #EDF2F7;
+}
+
+.App li.message-list-message-container:not(:last-child) {
+  border-bottom: 1px dashed #4A5568;
+}
+
+.App li.message-list-message-container .user-message-label {
+  color: #805AD5;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  margin: 0 0 0rem 0;
+}
+
+.App li.message-list-message-container .bot-message-label {
+  color: #38A169;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  margin: 0 0 0rem 0;
+}
+
+.App li.message-list-message-container .message-text {
+  color: #EDF2F7;
+  margin: 0;
+}
+
+
+.App #getVoiceInputBtn {
+  display: inline-flex;
+  appearance: none;
+  -webkit-box-align: center;
   align-items: center;
+  -webkit-box-pack: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  transition: all 250ms ease 0s;
+  user-select: none;
+  position: relative;
+  white-space: nowrap;
+  vertical-align: middle;
+  outline: none;
+  width: auto;
+  line-height: 1.2;
+  height: 2.5rem;
+  min-width: 2.5rem;
+  border: none;
+  font-size: 1rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  background: rgb(128, 90, 213);
+  /* background: rgb(49, 130, 206); */
+  /* background: rgb(43, 108, 176); */
+  color: rgb(255, 255, 255);
+  cursor: pointer;
+  text-transform: none;
 }
 
-.App-link {
-  color: #61dafb;
-}
+.App #getVoiceInputBtn.active {
+  display: inline-flex;
+  appearance: none;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  justify-content: center;
+  transition: all 250ms ease 0s;
+  user-select: none;
+  position: relative;
+  white-space: nowrap;
+  vertical-align: middle;
+  outline: none;
+  width: auto;
+  line-height: 1.2;
+  height: 2.5rem;
+  min-width: 2.5rem;
+  font-size: 1rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  border: 1px solid currentcolor;
+  color: rgb(44, 122, 123);
+  background: transparent;
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+  color: rgb(255, 255, 255);
+  cursor: pointer;
+  text-transform: none;
+  opacity: 0.4;
+}
+.App #getVoiceInputBtn:hover {
+  background: rgb(122, 68, 183);
 }
