@@ -85,13 +85,17 @@ function App() {
     setIsSpeaking(false);
   };
 
+  const capitalize = (s) => {
+    if (typeof s !== 'string') return ''
+    return s.charAt(0).toUpperCase() + s.slice(1)
+  }
   const onRecognitionResult = (event) => {
     console.log("Transcript: ", event.results[0][0].transcript);
 
     /* Push the transcribed message to the list */
     const message = {
       type: "sent",
-      text: event.results[0][0].transcript
+      text: capitalize(event.results[0][0].transcript) + "."
     };
 
     setWaitingForResponse(true);
@@ -160,14 +164,14 @@ function App() {
           </div> 
         )
       }
-      <main id="messageContainer" className="text-box-container">
+      <main className="text-box-container">
         {
           messagesList.length === 0 ? (
             <div className="empty-list-container">
               Start talking to your buddy by clicking the button below.
             </div>
           ) : (
-            <ul className="message-box">
+            <ul id="messageContainer" className="message-box">
               {renderMessagesList()}
             </ul>
           )

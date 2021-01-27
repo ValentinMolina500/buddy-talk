@@ -95,7 +95,6 @@
   position: relative;
   white-space: nowrap;
   vertical-align: middle;
-  outline: none;
   width: auto;
   line-height: 1.2;
   height: 2.5rem;
@@ -148,6 +147,7 @@
   width: 3rem;
   margin-left: auto;
   cursor: pointer;
+  user-select: none;
 }
 
 .App .info-modal-container {

@@ -1,4 +1,5 @@
-const API_KEY = process.env.REACT_APP_CHAT_API_KEY;
+const API_KEY = process.env.REACT_APP_API_KEY;
+
 const PREFIX = "https://www.cleverbot.com/getreply";
 
 class ChatAPI {
