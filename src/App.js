@@ -4,42 +4,6 @@ import './App.css';
 
 import CC_LOGO from "./images/cc.png";
 
-const API_KEY = process.env.REACT_APP_API_KEY;
-
-const PREFIX = "https://www.cleverbot.com/getreply";
-
-class ChatAPI {
-
-    /* Call back state for Cleverbot, needs to be passed back if set */
-    cs = null;
-
-    async getReply(input) {
-        /* Create base request */
-        let request = `${PREFIX}?key=${API_KEY}`;
-        
-        /* Add control state if present */
-        if (input !== "") {
-
-            /* Add input from user */
-            request += `&input=${encodeURIComponent(input)}`;
-        }
-
-        if (this.cs !== null) {
-            request += `&cs=${this.cs}`;
-        }
-
-        const response = await fetch(request);
-       
-        const json = await response.json();
-
-        /* Store control state */
-        this.cs = json.cs;
-
-        return json;
-    }
-}
-
-const CHAT_API = new ChatAPI();
 
 function App() {
   
@@ -48,7 +12,7 @@ function App() {
   const [speechVoices, setSpeechVoices] = useState([]);
 
   /* The current selected voice */
-  const [selectedVoice, setSelectedVoice] = useState("Google UK English Male");
+  const [selectedVoice, setSelectedVoice] = useState();
 
   /* Flag to indicate if user is currently speaking */
   const [isSpeaking, setIsSpeaking] = useState(false);
@@ -67,6 +31,7 @@ function App() {
 
   /* On init */
   useEffect(() => {
+    s
     const voices = voiceSynth.getVoices();
     console.log(voices);
     /* Setup speech recognition */
@@ -80,6 +45,7 @@ function App() {
     recognition.current.onresult = onRecognitionResult;
 
     setSpeechVoices(voices);
+    setSelectedVoice("Google UK English Male")
   }, []);
 
   useEffect(() => {
@@ -184,6 +150,7 @@ function App() {
         )
       }
       
+      return null;
     });
   };
 
