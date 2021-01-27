@@ -57,6 +57,7 @@
   width: 100%;
   max-width: 20rem;
   padding: 2rem;
+  font-weight: 600;
   border: 1px dashed #EDF2F7;
 }
 
@@ -66,16 +67,18 @@
 
 .App li.message-list-message-container .user-message-label {
   color: #805AD5;
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   text-transform: uppercase;
   margin: 0 0 0rem 0;
+  font-weight: 600;
 }
 
 .App li.message-list-message-container .bot-message-label {
   color: #38A169;
-  font-size: 0.875rem;
+  font-size: 0.75rem;
   text-transform: uppercase;
   margin: 0 0 0rem 0;
+  font-weight: 600;
 }
 
 .App li.message-list-message-container .message-text {
@@ -107,6 +110,7 @@
   color: rgb(255, 255, 255);
   cursor: pointer;
   text-transform: none;
+  font-weight: 600;
 }
 
 .App #getVoiceInputBtn.active {
@@ -184,6 +188,10 @@
   padding: 1rem;
   background: #2D3748;
   color: #EDF2F7;
+
+  animation-name: scale-in;
+  animation-duration: 200ms;
+  animation-timing-function: ease;
 }
 
 .App .info-modal > * {
@@ -238,5 +246,15 @@
   }
   to {
       transform:rotate(360deg);
+  }
+}
+
+@keyframes scale-in {
+  from {
+    transform: scale(0.9);
+  }
+
+  to {
+    transfrom: scale(1);
   }
 }

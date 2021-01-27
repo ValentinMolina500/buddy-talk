@@ -2,12 +2,13 @@ import React, { useState, useEffect, useRef } from 'react';
 import { animateScroll } from "react-scroll";
 import './App.css';
 import CHAT_API from "./api/ChatAPI";
-import CC_LOGO from "./images/cc.png";
+import CC_LOGO from "./images/cc_flat.png";
 
 
 function App() {
   
-  const [voiceSynth, selectedVoiceSynth] = useState(window.speechSynthesis)
+  const [voiceSynth, selectedVoiceSynth] = useState(window.speechSynthesis);
+
   /* The text-to-speech voices available */
   const [speechVoices, setSpeechVoices] = useState([]);
 
@@ -31,15 +32,13 @@ function App() {
 
   /* On init */
   useEffect(() => {
-    
     const voices = voiceSynth.getVoices();
-    console.log(voices);
+
     /* Setup speech recognition */
     recognition.current = new window.webkitSpeechRecognition();
     recognition.current.continous = true;
     // recognition.current.interimResults = true;
     recognition.current.lang = 'en-US';
-
     recognition.current.onstart = onRecognitionStart;
     recognition.current.onspeechend = onSpeechEnd;
     recognition.current.onresult = onRecognitionResult;
@@ -68,13 +67,15 @@ function App() {
     })
   };
   
+  /* Scroll to bottom of when new message recieved */
   useEffect(() => {
     animateScroll.scrollToBottom({
       containerId: "messageContainer",
       duration: 200,
       delay: 0
     })
-  }, [messagesList])
+  }, [messagesList]);
+
   const onVoiceStart = () => {
     setIsSpeaking(!isSpeaking);
   };
@@ -91,7 +92,8 @@ function App() {
   const capitalize = (s) => {
     if (typeof s !== 'string') return ''
     return s.charAt(0).toUpperCase() + s.slice(1)
-  }
+  };
+
   const onRecognitionResult = (event) => {
     console.log("Transcript: ", event.results[0][0].transcript);
 
@@ -123,8 +125,6 @@ function App() {
           setIsSpeaking(true);
           setWaitingForResponse(false);
         }
-
-
        
         setMessagesList(oldMessages => [...oldMessages, botResponse]);
       });
@@ -168,6 +168,7 @@ function App() {
               <p>Made possible by generous grants by the Coding Cougs.</p>
               <img className="cc-logo-inner" id="rotating" src={CC_LOGO} alt="Coding Cougs logo" />
               <p>Created by Valentin Molina.</p>
+
               <button onClick={() => setShowInfoModal(false)} className="cancel-btn">Cancel</button>
             </div>
           </div> 
@@ -185,7 +186,6 @@ function App() {
             </ul>
           )
         }
-        
       </main>
 
       <div className="text-input-container">
