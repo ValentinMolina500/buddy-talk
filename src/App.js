@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { animateScroll } from "react-scroll";
 import './App.css';
 import CHAT_API from "./api/ChatAPI";
-
+import CC_LOGO from "./images/cc.png";
 
 function App() {
   
@@ -24,6 +24,9 @@ function App() {
 
   /* Flag to indicate waiting for response */
   const [waitingForResponse, setWaitingForResponse] = useState(false);
+
+  /* Flag to show modal */
+  const [showInfoModal, setShowInfoModal] = useState(false);
 
   /* On init */
   useEffect(() => {
@@ -145,6 +148,18 @@ function App() {
 
   return (
     <div className="App">
+      {
+        showInfoModal && (
+          <div className="info-modal-container">
+            <div className="info-modal">
+              <h1>Buddy Talk</h1>
+              <p>Made possible by generous grants by the Coding Cougs.</p>
+              <img className="cc-logo-inner" id="rotating" src={CC_LOGO} alt="Coding Cougs logo" />
+              <button onClick={() => setShowInfoModal(false)} className="cancel-btn">Cancel</button>
+            </div>
+          </div> 
+        )
+      }
       <main id="messageContainer" className="text-box-container">
         {
           messagesList.length === 0 ? (
@@ -166,6 +181,8 @@ function App() {
           <button disabled={waitingForResponse} class={`${isSpeaking ? "active" : ""}`} onClick={onVoiceStart} id="getVoiceInputBtn">
             { isSpeaking ? "Listening... click to stop" : "Click to start speaking" }
           </button>
+
+          <img class="cc-logo" onClick={() => setShowInfoModal(true)} src={CC_LOGO} alt="Coding Cougs logo" />
         </div>
       </div>
     </div>

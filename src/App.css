@@ -35,7 +35,10 @@
   max-width: 50rem;
   margin: 0 auto;
   padding: 0 1rem;
+  display: flex;
+  align-items: center;
 }
+
 .App ul.message-box {
   list-style: none;
   margin: 0;
@@ -80,7 +83,6 @@
   margin: 0;
 }
 
-
 .App #getVoiceInputBtn {
   display: inline-flex;
   appearance: none;
@@ -103,8 +105,6 @@
   padding-left: 1rem;
   padding-right: 1rem;
   background: rgb(128, 90, 213);
-  /* background: rgb(49, 130, 206); */
-  /* background: rgb(43, 108, 176); */
   color: rgb(255, 255, 255);
   cursor: pointer;
   text-transform: none;
@@ -139,6 +139,98 @@
   text-transform: none;
   opacity: 0.4;
 }
+
 .App #getVoiceInputBtn:hover {
   background: rgb(122, 68, 183);
+}
+
+.App .cc-logo {
+  width: 3rem;
+  margin-left: auto;
+  cursor: pointer;
+}
+
+.App .info-modal-container {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
+  left: 0px;
+  top: 0px;
+  z-index: 1400;
+  background: rgba(0, 0, 0, 0.48);
+  justify-content: center;
+  align-items: flex-start;
+}
+
+.App .info-modal {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  width: 100%;
+  outline: 0px;
+  border-radius: 0.375rem;
+  margin-top: 3.75rem;
+  margin-bottom: 3.75rem;
+  z-index: 1400;
+  box-shadow: rgb(0 0 0 / 10%) 0px 10px 15px -3px, rgb(0 0 0 / 5%) 0px 4px 6px -2px;
+  max-width: 28rem;
+  padding: 1rem;
+  background: #2D3748;
+  color: #EDF2F7;
+}
+
+.App .info-modal > * {
+  margin: 0;
+}
+
+.App .info-modal > h1, .App .info-modal > p{
+  margin-bottom: 1rem;
+}
+
+.App .cc-logo-inner {
+  width: 3rem;
+  animation-name: spin;
+  animation-duration: 5000ms;
+  animation-iteration-count: infinite;
+  animation-timing-function: linear; 
+  margin: 0 auto 2rem auto;
+  display: block;
+}
+
+.App .cancel-btn {
+  display: inline-flex;
+  appearance: none;
+  -webkit-box-align: center;
+  align-items: center;
+  -webkit-box-pack: center;
+  justify-content: center;
+  transition: all 250ms ease 0s;
+  user-select: none;
+  position: relative;
+  white-space: nowrap;
+  vertical-align: middle;
+  outline: none;
+  width: auto;
+  line-height: 1.2;
+  border-radius: 0.375rem;
+  font-weight: 600;
+  height: 2.5rem;
+  min-width: 2.5rem;
+  font-size: 1rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  border: 1px solid currentcolor;
+  color: #EDF2F7;
+  background: transparent;
+
+  cursor: pointer;
+}
+@keyframes spin {
+  from {
+      transform:rotate(0deg);
+  }
+  to {
+      transform:rotate(360deg);
+  }
 }
