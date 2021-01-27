@@ -143,6 +143,11 @@
   background: rgb(122, 68, 183);
 }
 
+.App #getVoiceInputBtn:disabled {
+  color: #718096;
+  background: #CBD5E0;
+  cursor: not-allowed;
+}
 .App .cc-logo {
   width: 3rem;
   margin-left: auto;
@@ -156,6 +161,7 @@
   height: 100vh;
   position: fixed;
   left: 0px;
+  padding: 0 1rem;
   top: 0px;
   z-index: 1400;
   background: rgba(0, 0, 0, 0.48);

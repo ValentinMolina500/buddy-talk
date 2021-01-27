@@ -119,9 +119,13 @@ function App() {
         utterThis.voice = voice;
         voiceSynth.speak(utterThis);
 
+        utterThis.onend = () => {
+          setIsSpeaking(true);
+          setWaitingForResponse(false);
+        }
 
-        setIsSpeaking(true);
-        setWaitingForResponse(false);
+
+       
         setMessagesList(oldMessages => [...oldMessages, botResponse]);
       });
 
@@ -163,6 +167,7 @@ function App() {
               <h1>Buddy Talk</h1>
               <p>Made possible by generous grants by the Coding Cougs.</p>
               <img className="cc-logo-inner" id="rotating" src={CC_LOGO} alt="Coding Cougs logo" />
+              <p>Created by Valentin Molina.</p>
               <button onClick={() => setShowInfoModal(false)} className="cancel-btn">Cancel</button>
             </div>
           </div> 
